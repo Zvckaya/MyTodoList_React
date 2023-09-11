@@ -24,7 +24,9 @@ export default function App() {
 
   function deleteTodo(id) {
     setTodos((currentTodos) => {
-      return currentTodos.filter((todo) => todo.id !== id);
+      return currentTodos.filter((todo) => {
+        return todo.id !== id;
+      });
     });
   }
 
