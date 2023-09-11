@@ -1,12 +1,29 @@
-import { TodoItem } from "./TodoItem";
+import { observer } from "mobx-react";
 
-export function TodoList({ todos, toggleTodo, deleteTodo }) {
+export const TodoList = observer(({ todoMng, todos }) => {
+  const handleDeleteClick = (id) => {
+    if (document.getElementById(id).checked) {
+      todoMng.deleteTodo(id);
+    }
+  };
+  console.log(todoMng.todos);
   return (
-    <ul className="list">
-      {todos.length === 0 && "할일이 없음"}
-      {todos.map((todo) => {
-        return <TodoItem {...todo} key={todo.id} toggleTodo={toggleTodo} deleteTodo={deleteTodo}></TodoItem>;
-      })}
-    </ul>
+    <>
+      <ul className="List">
+        {todos.map((todo) => {
+          return (
+            <li key={todo.id}>
+              <label>
+                <input id={todo.id} type="checkbox" checked={todo.compeleted} onChange={(e) => todoMng.toggleTodo(todo.id, e.target.value)} />
+              </label>
+              {todo.title}
+              <button onClick={handleDeleteClick} className="btn btn-danger">
+                삭제
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
-}
+});

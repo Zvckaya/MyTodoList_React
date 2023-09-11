@@ -1,13 +1,14 @@
+import { observer } from "mobx-react";
 import { useState } from "react";
 
-export function NewTodoForm({ onSubmit }) {
+const NewTodoForm = observer(({ todoMng }) => {
   const [newItem, setNewItem] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (newItem === "") return;
-    onSubmit(newItem);
+    todoMng.addTodo(newItem);
     setNewItem("");
   }
 
@@ -20,4 +21,6 @@ export function NewTodoForm({ onSubmit }) {
       <button className="btn">추가</button>
     </form>
   );
-}
+});
+
+export default NewTodoForm;

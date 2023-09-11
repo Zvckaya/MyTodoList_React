@@ -1,40 +1,28 @@
-import { useState } from "react";
-import "./styles.css";
-import { NewTodoForm } from "./NewTodoForm";
+// eslint-disable-next-line no-unused-vars
+import styles from "./styles.css";
+import Timer from "./TImer";
+import TimerView from "./TimerView";
+import TodoStore from "./TodoStore";
+import NewTodoForm from "./NewTodoForm";
 import { TodoList } from "./TodoList";
-export default function App() {
-  const [todos, setTodos] = useState([]);
+const App = () => {
+  const clock = new Timer();
+  const todoMng = new TodoStore();
 
-  function addToDo(title) {
-    setTodos((currentTodos) => {
-      return [...currentTodos, { id: crypto.randomUUID(), title, complete: false }];
-    });
-  }
-
-  function toggleTodo(id, completed) {
-    setTodos((currentTodos) => {
-      return currentTodos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, completed };
-        }
-        return todo;
-      });
-    });
-  }
-
-  function deleteTodo(id) {
-    setTodos((currentTodos) => {
-      return currentTodos.filter((todo) => {
-        return todo.id !== id;
-      });
-    });
-  }
-
+  setInterval(() => {
+    clock.increaseTimer();
+  }, 1000);
   return (
     <>
-      <NewTodoForm onSubmit={addToDo} />
-      <h1 className="header">할일 목록</h1>
-      <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo}></TodoList>
+      <h1>안녕하세요 Jonathan</h1>
+      <NewTodoForm todoMng={todoMng}></NewTodoForm>
+      <TodoList todoMng={todoMng} todos={todoMng.todos}></TodoList>
+      <TimerView timer={clock}></TimerView>
+      <button className="btn" onClick={() => clock.resetTimer()}>
+        리셋
+      </button>
     </>
   );
-}
+};
+
+export default App;
