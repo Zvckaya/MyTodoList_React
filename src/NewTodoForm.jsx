@@ -1,14 +1,17 @@
 import { observer } from "mobx-react";
 import { useState } from "react";
+import StoreManager from "./Stores";
 
-const NewTodoForm = observer(({ todoMng }) => {
+const NewTodoForm = observer(() => {
   const [newItem, setNewItem] = useState("");
+
+  const TodoStore = StoreManager.useTodoStore;
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (newItem === "") return;
-    todoMng.addTodo(newItem);
+    TodoStore.addTodo(newItem);
     setNewItem("");
   }
 

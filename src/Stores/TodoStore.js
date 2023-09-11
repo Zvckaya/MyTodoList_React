@@ -1,6 +1,15 @@
 import { makeAutoObservable } from "mobx";
 
 class TodoStore {
+  // static _Instance;
+
+  // static get Instance() {
+  //   if (TodoStore._Instance == null) {
+  //     TodoStore._Instance = new TodoStore();
+  //   }
+  //   return TodoStore._Instance;
+  // }
+
   todos = [{ id: "qqwe12313", title: "코딩하기", compeleted: false }];
 
   constructor() {
@@ -11,15 +20,18 @@ class TodoStore {
     this.todos.push({ id: crypto.randomUUID(), title, completed: false });
   }
 
-  toggleTodo(id, compeleted) {
+  toggleTodo(id) {
     const todo = this.todos.find((todo) => todo.id === id);
+
     if (todo) {
-      todo.compeleted = compeleted;
+      todo.compeleted = !todo.compeleted;
     }
   }
 
   deleteTodo(id) {
-    this.todos.filter((todo) => todo.id !== id);
+    console.log("삭제시도");
+    this.todos = this.todos.filter((todo) => todo.id !== id);
+    console.log(this.todos, id);
   }
 }
 
